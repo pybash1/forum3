@@ -1,5 +1,5 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 let orbis = new Orbis();
 
@@ -33,6 +33,8 @@ export default function Forum({
   closedText,
 }: Props) {
   const [user, setUser] = useState<string>();
+  const [msg, setMsg] = useState("");
+  const [msgs, setMsgs] = useState([]);
 
   async function connect() {
     let res = await orbis.connect();
@@ -51,6 +53,18 @@ export default function Forum({
 
     res.status === 200 ? setUser(undefined) : console.log(res);
   }
+
+  async function send() {
+    let res = await orbis.createPost({body: msg});
+
+    console.log("here: ", res);
+  }
+
+  useEffect(() => {
+    orbis.getPosts().then((data: any) => {
+      setMsgs(data.data.map((msg: any) => msg.content.body));
+    })
+  }, [])
 
   return (
     <div
@@ -102,9 +116,13 @@ export default function Forum({
         >
           {headerText}
         </div>
-        <div className="px-4 py-3 h-full flex items-center justify-center">
+        <div className="px-4 py-3 h-full flex items-center justify-center text-black">
           {user ? (
-            <></>
+            <div className="overflow-x-hidden overflow-y-scroll">
+              {/* {msgs.map((msg, ind) => (
+                <div key={ind}>{msg}</div>
+              ))} */}
+            </div>
           ) : (
             <button
               className="rounded-xl px-4 py-2 font-semibold hover:bg-opacity-70"
@@ -125,8 +143,11 @@ export default function Forum({
               backgroundColor: theme.inputBackground || theme.background,
             }}
           >
+
             <div className="flex items-center justify-between gap-3 pt-3">
               <input
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)}
                 className={`w-full h-10 rounded-xl p-2 text-sm font-semibold placeholder-[${
                   theme.placeholder || theme.background
                 }]`}
@@ -137,6 +158,7 @@ export default function Forum({
                 }}
               />
               <button
+                onClick={send}
                 className="rounded-full p-2"
                 style={{
                   background: theme.buttonColor || theme.accent,
