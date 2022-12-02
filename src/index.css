@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind utilities;
 @tailwind components;
+
+::-webkit-scrollbar {
+    width: 4px;    
+}
+
+::-webkit-scrollbar-track {
+    background: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: "#f00";
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: "#0f0";
+}
+
+.overflow-wrap {
+    overflow-wrap: break-word;
+}
