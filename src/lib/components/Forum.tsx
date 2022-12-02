@@ -31,10 +31,12 @@ export default function Forum({
   theme = dark ? darkDefaults : defaults,
   headerText,
   closedText,
+  context,
 }: Props) {
   const [user, setUser] = useState<string>();
+  const [did, setDid] = useState<string>();
   const [msg, setMsg] = useState("");
-  const [msgs, setMsgs] = useState([]);
+  const [msgs, setMsgs] = useState<any[][]>();
 
   async function connect() {
     let res = await orbis.connect();
@@ -46,6 +48,7 @@ export default function Forum({
             res.did.toString().split(":")[4].substr(36)
         )
       : console.log(res);
+    res.status === 200 ? setDid(res.did) : console.log(res);
   }
 
   async function disconnect() {
@@ -55,16 +58,19 @@ export default function Forum({
   }
 
   async function send() {
-    let res = await orbis.createPost({body: msg});
+    let res = await orbis.createPost({ body: msg, context: "forum3" });
 
-    console.log("here: ", res);
+    let posts = await orbis.getPosts({ context: "forum3" });
+    setMsgs(posts.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
+    setMsg("");
   }
-
+  
   useEffect(() => {
-    orbis.getPosts().then((data: any) => {
-      setMsgs(data.data.map((msg: any) => msg.content.body));
-    })
-  }, [])
+    orbis.getPosts({ context: "forum3" }).then((data: any) => {
+      setMsgs(data.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
+      console.log(msgs);
+    });
+  });
 
   return (
     <div
@@ -116,12 +122,31 @@ export default function Forum({
         >
           {headerText}
         </div>
-        <div className="px-4 py-3 h-full flex items-center justify-center text-black">
+        <div
+          className="px-2 flex items-center justify-center text-black"
+          style={{ height: user ? "" : "100%" }}
+        >
           {user ? (
-            <div className="overflow-x-hidden overflow-y-scroll">
-              {/* {msgs.map((msg, ind) => (
-                <div key={ind}>{msg}</div>
-              ))} */}
+            <div className="w-full h-[16rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
+              {msgs?.map((msg, ind) => (
+                <div className="flex flex-row gap-3">
+                  {msg[1] === did ? (
+                    <div
+                      key={ind}
+                      className="ml-auto p-2 bg-green-300 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
+                    >
+                      {msg[0]}
+                    </div>
+                  ) : (
+                    <div
+                      key={ind}
+                      className="p-2 bg-blue-300 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
+                    >
+                      {msg[0]}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           ) : (
             <button
@@ -143,7 +168,6 @@ export default function Forum({
               backgroundColor: theme.inputBackground || theme.background,
             }}
           >
-
             <div className="flex items-center justify-between gap-3 pt-3">
               <input
                 value={msg}
@@ -182,7 +206,12 @@ export default function Forum({
               style={{ color: theme.textColor }}
             >
               Logged in as {user}.{" "}
-              <button style={{ color: theme.accent }} onClick={() => disconnect()}>Disconnect?</button>
+              <button
+                style={{ color: theme.accent }}
+                onClick={() => disconnect()}
+              >
+                Disconnect?
+              </button>
             </div>
           </div>
         ) : null}
@@ -197,6 +226,7 @@ interface Props {
   dark?: boolean;
   closedText: string;
   headerText: string;
+  context: string;
 }
 
 interface Colors {
