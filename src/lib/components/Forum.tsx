@@ -31,7 +31,7 @@ const darkDefaults: Colors = {
 
 export default function Forum({
   position = "bottom-right",
-  dark = false,
+  dark = true,
   theme = dark ? darkDefaults : defaults,
   headerText,
   closedText,
@@ -42,8 +42,8 @@ export default function Forum({
   const [msg, setMsg] = useState("");
   const [msgs, setMsgs] = useState<any[][]>();
   const [messagesEnd, setMessagesEnd] = useState<Element | null>();
-
-  const forumRef = useRef(null);
+  const [reply, setReply] = useState<string | null>(null);
+  const [hovered, setHovered] = useState(false);
 
   async function connect() {
     let res = await orbis.connect();
@@ -129,7 +129,6 @@ export default function Forum({
       </div>
       <div
         className="hidden group-hover:flex flex-col justify-between h-96"
-        ref={forumRef}
       >
         <div
           className={`px-4 py-3 text-center font-semibold ${
@@ -149,7 +148,7 @@ export default function Forum({
           style={{ height: user ? "" : "100%" }}
         >
           {user ? (
-            <div className="w-full h-[16rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
+            <div className="w-full h-[15rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
               {msgs?.map((msg, ind) => (
                 <div
                   className="flex flex-row gap-3"
@@ -164,18 +163,20 @@ export default function Forum({
                           theme.messageColor ||
                           theme.accent,
                       }}
-                      className="ml-auto p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
+                      className="ml-auto p-2 w-fit max-w-[50%] rounded-md text-sm overflow-wrap relative group/reply"
                     >
+                      <button onClick={() => setReply(msg[0])} className={`absolute -bottom-2 rounded-full p-2 w-6 h-6 group-hover/reply:flex items-center justify-center -left-4 hidden hover:bg-[${theme.inputColor}]`} onMouseEnter={() => setHovered(!hovered)} onMouseLeave={() => setHovered(!hovered)} style={{ background: theme.accent, color: theme.background }}><img src="https://cerscan.com/img/icons/question-replyto.png" alt="relpyto image" className="h-3 w-5" /></button>
                       {msg[0]}
                     </div>
                   ) : (
                     <div
-                      key={ind}
-                      style={{
+                    key={ind}
+                    style={{
                         backgroundColor: theme.messageColor || theme.accent,
                       }}
-                      className="p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
-                    >
+                      className="p-2 w-fit max-w-[50%] rounded-md text-sm overflow-wrap relative group/reply"
+                      >
+                      <button onClick={() => setReply(msg[0])} className={`absolute -bottom-2 rounded-full p-2 w-6 h-6 group-hover/reply:flex items-center justify-center -right-4 hidden hover:bg-[${theme.inputColor}]`} onMouseEnter={() => setHovered(!hovered)} onMouseLeave={() => setHovered(!hovered)} style={{ background: theme.accent, color: theme.background }}><img src="https://cerscan.com/img/icons/question-replyto.png" alt="relpyto image" className="h-3 w-5" /></button>
                       {msg[0]}
                     </div>
                   )}
@@ -198,12 +199,25 @@ export default function Forum({
         </div>
         {user ? (
           <div
-            className="h-20 px-3"
+            className="px-3"
             style={{
               backgroundColor: theme.inputBackground || theme.background,
+              height: reply != null ? "96px" : "80px"
             }}
           >
-            <div className="flex items-center justify-between gap-3 pt-3">
+            {reply != null ? (<div
+              className="text-xs pt-2 flex flex-row justify-between"
+              style={{ color: theme.textColor }}
+            >
+              Replying to "{reply.substr(0, 20)}..."
+              <button
+                style={{ color: theme.accent }}
+                onClick={() => setReply(null)}
+              >
+                X
+              </button>
+            </div>) : null}
+            <div className="flex items-center justify-between gap-3" style={{ paddingTop: reply ? "4px" : "12px" }}>
               <input
                 value={msg}
                 onChange={(e) => setMsg(e.target.value)}
