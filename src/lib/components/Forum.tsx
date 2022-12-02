@@ -68,17 +68,28 @@ export default function Forum({
     await orbis.createPost({ body: msg, context: context });
 
     let posts = await orbis.getPosts({ context: context });
-    setMsgs(posts.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
+    setMsgs(
+      posts.data
+        .map((msg: any) => [msg.content.body, msg.creator, msg])
+        .reverse()
+    );
     setMsg("");
+    messagesEnd?.scrollIntoView({ behavior: "smooth" });
   }
   
   useEffect(() => {
     orbis.getPosts({ context: context }).then((data: any) => {
-      setMsgs(data.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
-      console.log(msgs);
+      setMsgs(
+        data.data
+          .map((msg: any) => [msg.content.body, msg.creator, msg])
+          .reverse()
+      );
     });
-    messagesEnd?.scrollIntoView({ behavior: "smooth" })
   });
+
+  useEffect(() => {
+    messagesEnd?.scrollIntoView({ behavior: "smooth" });
+  }, [messagesEnd]);
 
   return (
     <div
@@ -116,7 +127,10 @@ export default function Forum({
         </svg>
         {closedText}
       </div>
-      <div className="hidden group-hover:flex flex-col justify-between h-96" ref={forumRef}>
+      <div
+        className="hidden group-hover:flex flex-col justify-between h-96"
+        ref={forumRef}
+      >
         <div
           className={`px-4 py-3 text-center font-semibold ${
             position === "top-left" || position === "top-right"
@@ -137,11 +151,19 @@ export default function Forum({
           {user ? (
             <div className="w-full h-[16rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
               {msgs?.map((msg, ind) => (
-                <div className="flex flex-row gap-3" style={{ color: theme.textColor || theme.background }}>
+                <div
+                  className="flex flex-row gap-3"
+                  style={{ color: theme.textColor || theme.background }}
+                >
                   {msg[1] === did ? (
                     <div
                       key={ind}
-                      style={{ backgroundColor: theme.sentMessageColor || theme.messageColor || theme.accent }}
+                      style={{
+                        backgroundColor:
+                          theme.sentMessageColor ||
+                          theme.messageColor ||
+                          theme.accent,
+                      }}
                       className="ml-auto p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
                     >
                       {msg[0]}
@@ -149,7 +171,9 @@ export default function Forum({
                   ) : (
                     <div
                       key={ind}
-                      style={{ backgroundColor: theme.messageColor || theme.accent }}
+                      style={{
+                        backgroundColor: theme.messageColor || theme.accent,
+                      }}
                       className="p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
                     >
                       {msg[0]}
