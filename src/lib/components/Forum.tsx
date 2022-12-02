@@ -1,5 +1,5 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 let orbis = new Orbis();
 
@@ -12,6 +12,8 @@ const defaults: Colors = {
   buttonColor: "#388697",
   inputColor: "#388697",
   inputBackground: "#EBFFEB",
+  messageColor: "#8FB339",
+  sentMessageColor: "#B7CE63",
 };
 
 const darkDefaults: Colors = {
@@ -23,6 +25,8 @@ const darkDefaults: Colors = {
   buttonColor: "#FCE4D8",
   inputColor: "#FCE4D8",
   inputBackground: "#2C262C",
+  messageColor: "#C06E52",
+  sentMessageColor: "#F96F5D",
 };
 
 export default function Forum({
@@ -37,6 +41,9 @@ export default function Forum({
   const [did, setDid] = useState<string>();
   const [msg, setMsg] = useState("");
   const [msgs, setMsgs] = useState<any[][]>();
+  const [messagesEnd, setMessagesEnd] = useState<Element | null>();
+
+  const forumRef = useRef(null);
 
   async function connect() {
     let res = await orbis.connect();
@@ -70,6 +77,7 @@ export default function Forum({
       setMsgs(data.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
       console.log(msgs);
     });
+    messagesEnd?.scrollIntoView({ behavior: "smooth" })
   });
 
   return (
@@ -108,7 +116,7 @@ export default function Forum({
         </svg>
         {closedText}
       </div>
-      <div className="hidden group-hover:flex flex-col justify-between h-96">
+      <div className="hidden group-hover:flex flex-col justify-between h-96" ref={forumRef}>
         <div
           className={`px-4 py-3 text-center font-semibold ${
             position === "top-left" || position === "top-right"
@@ -129,24 +137,27 @@ export default function Forum({
           {user ? (
             <div className="w-full h-[16rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
               {msgs?.map((msg, ind) => (
-                <div className="flex flex-row gap-3">
+                <div className="flex flex-row gap-3" style={{ color: theme.textColor || theme.background }}>
                   {msg[1] === did ? (
                     <div
                       key={ind}
-                      className="ml-auto p-2 bg-green-300 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
+                      style={{ backgroundColor: theme.sentMessageColor || theme.messageColor || theme.accent }}
+                      className="ml-auto p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
                     >
                       {msg[0]}
                     </div>
                   ) : (
                     <div
                       key={ind}
-                      className="p-2 bg-blue-300 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
+                      style={{ backgroundColor: theme.messageColor || theme.accent }}
+                      className="p-2 w-fit max-w-[50%] rounded-md text-xs overflow-wrap"
                     >
                       {msg[0]}
                     </div>
                   )}
                 </div>
               ))}
+              <div ref={(el) => setMessagesEnd(el)}></div>
             </div>
           ) : (
             <button
@@ -172,9 +183,7 @@ export default function Forum({
               <input
                 value={msg}
                 onChange={(e) => setMsg(e.target.value)}
-                className={`w-full h-10 rounded-xl p-2 text-sm font-semibold placeholder-[${
-                  theme.placeholder || theme.background
-                }]`}
+                className="w-full h-10 rounded-xl p-2 text-sm font-semibold"
                 placeholder="Type question"
                 style={{
                   background: theme.inputColor || theme.accent,
@@ -238,5 +247,6 @@ interface Colors {
   textColor?: string;
   inputColor?: string;
   buttonColor?: string;
-  placeholder?: string;
+  messageColor?: string;
+  sentMessageColor?: string;
 }
