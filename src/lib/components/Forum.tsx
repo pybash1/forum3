@@ -58,15 +58,15 @@ export default function Forum({
   }
 
   async function send() {
-    let res = await orbis.createPost({ body: msg, context: "forum3" });
+    await orbis.createPost({ body: msg, context: context });
 
-    let posts = await orbis.getPosts({ context: "forum3" });
+    let posts = await orbis.getPosts({ context: context });
     setMsgs(posts.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
     setMsg("");
   }
   
   useEffect(() => {
-    orbis.getPosts({ context: "forum3" }).then((data: any) => {
+    orbis.getPosts({ context: context }).then((data: any) => {
       setMsgs(data.data.map((msg: any) => [msg.content.body, msg.creator, msg]).reverse());
       console.log(msgs);
     });
