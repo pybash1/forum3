@@ -66,12 +66,19 @@ export default function Forum({
   }
 
   async function send() {
-    reply != null ? await orbis.createPost({ body: msg, context: context, reply_to: reply }) : await orbis.createPost({ body: msg, context: context });
+    reply != null
+      ? await orbis.createPost({ body: msg, context: context, reply_to: reply })
+      : await orbis.createPost({ body: msg, context: context });
 
     let posts = await orbis.getPosts({ context: context });
     setMsgs(
       posts.data
-        .map((msg: any) => [msg.content.body, msg.creator, msg.reply_to_details?.body, msg])
+        .map((msg: any) => [
+          msg.content.body,
+          msg.creator,
+          msg.reply_to_details?.body,
+          msg,
+        ])
         .reverse()
     );
     setMsg("");
@@ -83,7 +90,12 @@ export default function Forum({
     orbis.getPosts({ context: context }).then((data: any) => {
       setMsgs(
         data.data
-          .map((msg: any) => [msg.content.body, msg.creator, msg.reply_to_details?.body, msg])
+          .map((msg: any) => [
+            msg.content.body,
+            msg.creator,
+            msg.reply_to_details?.body,
+            msg,
+          ])
           .reverse()
       );
     });
@@ -164,10 +176,13 @@ export default function Forum({
                           theme.messageColor ||
                           theme.accent,
                       }}
-                      className="ml-auto p-2 w-fit max-w-[75%] rounded-md text-sm overflow-wrap relative group/reply"
+                      className="ml-auto p-2 w-fit max-w-[75%] rounded-xl text-sm overflow-wrap relative group/reply rounded-br-none"
                     >
                       <button
-                        onClick={() => {setReply(msg[3].stream_id); setReplyMsg(msg[0])}}
+                        onClick={() => {
+                          setReply(msg[3].stream_id);
+                          setReplyMsg(msg[0]);
+                        }}
                         className={`absolute -bottom-2 rounded-full p-2 w-6 h-6 group-hover/reply:flex items-center justify-center -left-4 hidden hover:bg-[${theme.inputColor}]`}
                         onMouseEnter={() => setHovered(!hovered)}
                         onMouseLeave={() => setHovered(!hovered)}
@@ -182,7 +197,9 @@ export default function Forum({
                           className="h-3 w-5"
                         />
                       </button>
-                      {msg[2] ? "> "+msg[2] : null}{msg[2] ? <br /> : null}{msg[0]}
+                      {msg[2] ? "> " + msg[2] : null}
+                      {msg[2] ? <br /> : null}
+                      {msg[0]}
                     </div>
                   ) : (
                     <div
@@ -190,10 +207,13 @@ export default function Forum({
                       style={{
                         backgroundColor: theme.messageColor || theme.accent,
                       }}
-                      className="p-2 w-fit max-w-[75%] rounded-md text-sm overflow-wrap relative group/reply"
+                      className="p-2 w-fit max-w-[75%] rounded-xl text-sm overflow-wrap relative group/reply rounded-bl-none"
                     >
                       <button
-                        onClick={() => {setReply(msg[3].stream_id); setReplyMsg(msg[0])}}
+                        onClick={() => {
+                          setReply(msg[3].stream_id);
+                          setReplyMsg(msg[0]);
+                        }}
                         className={`absolute -bottom-2 rounded-full p-2 w-6 h-6 group-hover/reply:flex items-center justify-center -right-4 hidden hover:bg-[${theme.inputColor}]`}
                         onMouseEnter={() => setHovered(!hovered)}
                         onMouseLeave={() => setHovered(!hovered)}
@@ -208,7 +228,9 @@ export default function Forum({
                           className="h-3 w-5"
                         />
                       </button>
-                      {msg[2] ? "> "+msg[2] : null}{msg[2] ? <br /> : null}{msg[0]}
+                      {msg[2] ? "> " + msg[2] : null}
+                      {msg[2] ? <br /> : null}
+                      {msg[0]}
                     </div>
                   )}
                 </div>
@@ -239,7 +261,7 @@ export default function Forum({
             {reply != null ? (
               <div
                 className="text-xs pt-2 flex flex-row justify-between"
-                style={{ color: theme.textColor }}
+                style={{ color: theme.textColor || theme.accent }}
               >
                 Replying to "{replyMsg?.substr(0, 20)}..."
                 <button
