@@ -34,7 +34,7 @@ const darkDefaults: Colors = {
 
 export default function Forum({
   position = "bottom-right",
-  dark = true,
+  dark = false,
   theme = dark ? darkDefaults : defaults,
   headerText,
   closedText,
@@ -95,12 +95,16 @@ export default function Forum({
       /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
     let text1 = text.replace(
       exp,
-      `<a target='_blank' style='color: ${theme.linkColor || theme.textColor || theme.background}' href='$1'>$1</a>`
+      `<a target='_blank' style='color: ${
+        theme.linkColor || theme.textColor || theme.background
+      }' href='$1'>$1</a>`
     );
     let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
     return text1.replace(
       exp2,
-      `$1<a target="_blank" style="color: ${theme.linkColor || theme.textColor || theme.background};" href="http://$2">$2</a>`
+      `$1<a target="_blank" style="color: ${
+        theme.linkColor || theme.textColor || theme.background
+      };" href="http://$2">$2</a>`
     );
   };
 
@@ -216,8 +220,17 @@ export default function Forum({
                           className="h-3 w-5"
                         />
                       </button>
-                      {msg[2] ? "> " + msg[2] : null}
-                      {msg[2] ? <br /> : null}
+                      {msg[2] ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: highlightLinks(msg[2]),
+                          }}
+                          className="border-l-4 rounded-md pl-1 text-white"
+                          style={{
+                            borderColor: theme.replyColor || theme.background,
+                          }}
+                        ></div>
+                      ) : null}
                       <div
                         dangerouslySetInnerHTML={{
                           __html: highlightLinks(msg[0]),
@@ -251,8 +264,18 @@ export default function Forum({
                           className="h-3 w-5"
                         />
                       </button>
-                      {msg[2] ? "> " + msg[2] : null}
-                      {msg[2] ? <br /> : null}
+
+                      {msg[2] ? (
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html: highlightLinks(msg[2]),
+                          }}
+                          className="border-l-4 rounded-md pl-1 text-white"
+                          style={{
+                            borderColor: theme.replyColor || theme.background,
+                          }}
+                        ></div>
+                      ) : null}
                       <div
                         dangerouslySetInnerHTML={{
                           __html: highlightLinks(msg[0]),
@@ -373,4 +396,5 @@ interface Colors {
   messageColor?: string;
   sentMessageColor?: string;
   linkColor?: string;
+  replyColor?: string;
 }
