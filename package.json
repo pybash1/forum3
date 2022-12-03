@@ -5,7 +5,9 @@
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "@orbisclub/orbis-sdk": "^0.4.4-beta.41"
+    "@orbisclub/orbis-sdk": "^0.4.4-beta.41",
+    "@types/sanitize-html": "^2.6.2",
+    "sanitize-html": "^2.7.3"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.14.1",
