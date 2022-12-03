@@ -1,5 +1,6 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
 import { useEffect, useState } from "react";
+import sanitizeHtml from "sanitize-html";
 
 let orbis = new Orbis();
 
@@ -14,6 +15,7 @@ const defaults: Colors = {
   inputBackground: "#EBFFEB",
   messageColor: "#8FB339",
   sentMessageColor: "#B7CE63",
+  linkColor: "#0A81D1",
 };
 
 const darkDefaults: Colors = {
@@ -27,6 +29,7 @@ const darkDefaults: Colors = {
   inputBackground: "#2C262C",
   messageColor: "#C06E52",
   sentMessageColor: "#F96F5D",
+  linkColor: "#653E3F",
 };
 
 export default function Forum({
@@ -85,6 +88,21 @@ export default function Forum({
     setReply(null);
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
   }
+
+  const highlightLinks = (text: string) => {
+    text = sanitizeHtml(text);
+    let exp =
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
+    let text1 = text.replace(
+      exp,
+      `<a target='_blank' style='color: ${theme.linkColor || theme.textColor || theme.background}' href='$1'>$1</a>`
+    );
+    let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
+    return text1.replace(
+      exp2,
+      `$1<a target="_blank" style="color: ${theme.linkColor || theme.textColor || theme.background};" href="http://$2">$2</a>`
+    );
+  };
 
   useEffect(() => {
     orbis.getPosts({ context: context }).then((data: any) => {
@@ -164,6 +182,7 @@ export default function Forum({
             <div className="w-full h-[15rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
               {msgs?.map((msg, ind) => (
                 <div
+                  key={ind}
                   className="flex flex-row gap-3"
                   style={{ color: theme.textColor || theme.background }}
                 >
@@ -199,7 +218,11 @@ export default function Forum({
                       </button>
                       {msg[2] ? "> " + msg[2] : null}
                       {msg[2] ? <br /> : null}
-                      {msg[0]}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: highlightLinks(msg[0]),
+                        }}
+                      ></div>
                     </div>
                   ) : (
                     <div
@@ -230,7 +253,11 @@ export default function Forum({
                       </button>
                       {msg[2] ? "> " + msg[2] : null}
                       {msg[2] ? <br /> : null}
-                      {msg[0]}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: highlightLinks(msg[0]),
+                        }}
+                      ></div>
                     </div>
                   )}
                 </div>
@@ -345,4 +372,5 @@ interface Colors {
   buttonColor?: string;
   messageColor?: string;
   sentMessageColor?: string;
+  linkColor?: string;
 }
