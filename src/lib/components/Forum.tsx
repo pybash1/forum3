@@ -187,9 +187,19 @@ export default function Forum({
               {msgs?.map((msg, ind) => (
                 <div
                   key={ind}
-                  className="flex flex-row gap-3"
+                  className="flex flex-col gap-0.5"
                   style={{ color: theme.textColor || theme.background }}
                 >
+                  <div
+                    className="text-xs"
+                    style={{ marginLeft: msg[1] === did ? "auto" : "", opacity: "0.7" }}
+                  >
+                    {msg[3].creator === did
+                      ? "You"
+                      : msg[3].creator.split(":")[4].substr(0, 6) +
+                        "..." +
+                        msg[3].creator.split(":")[4].substr(36)}
+                  </div>
                   {msg[1] === did ? (
                     <div
                       key={ind}
