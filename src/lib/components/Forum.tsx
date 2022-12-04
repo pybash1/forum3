@@ -151,7 +151,10 @@ export default function Forum({
         backgroundColor: theme.background,
       }}
     >
-      <Toaster />
+      <Toaster toastOptions={{ style: {
+        background: theme.accent,
+        color: theme.background,
+      } }}/>
       <div
         className="group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2"
         style={{ color: theme.textColor || theme.accent }}
