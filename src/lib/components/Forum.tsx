@@ -1,6 +1,7 @@
 import { Orbis } from "@orbisclub/orbis-sdk";
 import { useEffect, useState } from "react";
 import sanitizeHtml from "sanitize-html";
+import toast, { Toaster } from "react-hot-toast";
 
 let orbis = new Orbis();
 
@@ -58,17 +59,22 @@ export default function Forum({
             "..." +
             res.did.toString().split(":")[4].substr(36)
         )
-      : console.log(res);
+      : toast.error("Could not connect wallet!");
     res.status === 200 ? setDid(res.did) : console.log(res);
   }
 
   async function disconnect() {
     let res = await orbis.logout();
 
-    res.status === 200 ? setUser(undefined) : console.log(res);
+    res.status === 200 ? setUser(undefined) : toast.error("Failed to disconnect");
   }
 
   async function send() {
+    if (!msg || !msg.replace(/\s/g, '').length) {
+      toast.error("Message cannot be empty");
+      return;
+    }
+
     reply != null
       ? await orbis.createPost({ body: msg, context: context, reply_to: reply })
       : await orbis.createPost({ body: msg, context: context });
@@ -90,6 +96,7 @@ export default function Forum({
   }
 
   const highlightLinks = (text: string) => {
+    let cp = text;
     text = sanitizeHtml(text);
     let exp =
       /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi;
@@ -100,12 +107,12 @@ export default function Forum({
       }' href='$1'>$1</a>`
     );
     let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
-    return text1.replace(
+    return [text1.replace(
       exp2,
       `$1<a target="_blank" style="color: ${
         theme.linkColor || theme.textColor || theme.background
       };" href="http://$2">$2</a>`
-    );
+    ), text, cp];
   };
 
   useEffect(() => {
@@ -144,6 +151,7 @@ export default function Forum({
         backgroundColor: theme.background,
       }}
     >
+      <Toaster />
       <div
         className="group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2"
         style={{ color: theme.textColor || theme.accent }}
@@ -233,7 +241,7 @@ export default function Forum({
                       {msg[2] ? (
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: highlightLinks(msg[2]),
+                            __html: highlightLinks(msg[2])[0],
                           }}
                           className="border-l-4 rounded-md pl-1 text-white"
                           style={{
@@ -243,7 +251,7 @@ export default function Forum({
                       ) : null}
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: highlightLinks(msg[0]),
+                          __html: highlightLinks(msg[0])[0],
                         }}
                       ></div>
                     </div>
@@ -278,7 +286,7 @@ export default function Forum({
                       {msg[2] ? (
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: highlightLinks(msg[2]),
+                            __html: highlightLinks(msg[2])[0],
                           }}
                           className="border-l-4 rounded-md pl-1 text-white"
                           style={{
@@ -288,7 +296,7 @@ export default function Forum({
                       ) : null}
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: highlightLinks(msg[0]),
+                          __html: highlightLinks(msg[0])[0],
                         }}
                       ></div>
                     </div>
