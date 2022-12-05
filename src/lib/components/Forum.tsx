@@ -66,11 +66,13 @@ export default function Forum({
   async function disconnect() {
     let res = await orbis.logout();
 
-    res.status === 200 ? setUser(undefined) : toast.error("Failed to disconnect");
+    res.status === 200
+      ? setUser(undefined)
+      : toast.error("Failed to disconnect");
   }
 
   async function send() {
-    if (!msg || !msg.replace(/\s/g, '').length) {
+    if (!msg || !msg.replace(/\s/g, "").length) {
       toast.error("Message cannot be empty");
       return;
     }
@@ -107,12 +109,16 @@ export default function Forum({
       }' href='$1'>$1</a>`
     );
     let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
-    return [text1.replace(
-      exp2,
-      `$1<a target="_blank" style="color: ${
-        theme.linkColor || theme.textColor || theme.background
-      };" href="http://$2">$2</a>`
-    ), text, cp];
+    return [
+      text1.replace(
+        exp2,
+        `$1<a target="_blank" style="color: ${
+          theme.linkColor || theme.textColor || theme.background
+        };" href="http://$2">$2</a>`
+      ),
+      text,
+      cp,
+    ];
   };
 
   useEffect(() => {
@@ -128,7 +134,6 @@ export default function Forum({
           .reverse()
       );
     });
-    // console.log(msgs);
   });
 
   useEffect(() => {
@@ -151,10 +156,14 @@ export default function Forum({
         backgroundColor: theme.background,
       }}
     >
-      <Toaster toastOptions={{ style: {
-        background: theme.accent,
-        color: theme.background,
-      } }}/>
+      <Toaster
+        toastOptions={{
+          style: {
+            background: theme.accent,
+            color: theme.background,
+          },
+        }}
+      />
       <div
         className="group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2"
         style={{ color: theme.textColor || theme.accent }}
@@ -203,7 +212,10 @@ export default function Forum({
                 >
                   <div
                     className="text-xs"
-                    style={{ marginLeft: msg[1] === did ? "auto" : "", opacity: "0.7" }}
+                    style={{
+                      marginLeft: msg[1] === did ? "auto" : "",
+                      opacity: "0.7",
+                    }}
                   >
                     {msg[3].creator === did
                       ? "You"
@@ -334,7 +346,7 @@ export default function Forum({
                 className="text-xs pt-2 flex flex-row justify-between"
                 style={{ color: theme.textColor || theme.accent }}
               >
-                Replying to "{replyMsg?.substr(0, 20)}..."
+                Replying to "{replyMsg?.substring(0, 20)}{replyMsg?.substring(0, 20) !== replyMsg ? "..." : null}"
                 <button
                   style={{ color: theme.accent }}
                   onClick={() => setReply(null)}
