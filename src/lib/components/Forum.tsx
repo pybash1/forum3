@@ -146,14 +146,14 @@ export default function Forum({
         position === "top-left" || position === "top-right"
           ? "rounded-b-xl"
           : "rounded-t-xl"
-      } mx-14 hover:translate-y-0 transition ease-in-out group`}
+      } mx-14 hover:translate-y-0 transition ease-in-out group z-[100]`}
       style={{
         bottom:
           position === "bottom-right" || position === "bottom-left" ? 0 : "",
         top: position === "top-right" || position === "top-left" ? 0 : "",
         right: position === "bottom-right" || position === "top-right" ? 0 : "",
         left: position === "bottom-left" || position === "top-left" ? 0 : "",
-        backgroundColor: theme.background,
+        backgroundColor: theme.closedBackground || theme.background,
       }}
     >
       <Toaster
