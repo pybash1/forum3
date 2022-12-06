@@ -12,9 +12,9 @@ export default function Card({
   button: string;
 }) {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 font-inter">
       <div className="text-[#591dff]">{icon}</div>
-      <div className="font-semibold text-2xl">{title}</div>
+      <div className="font-bold text-xl">{title}</div>
       <div className="text-[1rem] text-gray-600">{description}</div>
       <a
         href="/"

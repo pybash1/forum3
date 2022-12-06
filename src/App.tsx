@@ -43,7 +43,7 @@ function App() {
         </div>
       </div>
       <div className="p-48">
-        <div className="grid grid-cols-3 gap-24">
+        <div className="grid grid-cols-3 gap-20">
           <Card
             icon={
               <svg
@@ -99,7 +99,7 @@ function App() {
             }
             title={"Components"}
             description={
-              "Check out the available components along with their live demo. P.S. - A live demo can be found in the bottom right corner as well."
+              "Check out the available components along with their live demo. A live demo is running in the bottom corner too."
             }
             button={"Live Demo"}
           />
