@@ -26,11 +26,7 @@ function App() {
       <div className="bg-[url('../public/bg.webp')] bg-cover font-inter h-screen w-screen flex flex-col items-center justify-center text-white">
         <div className="flex flex-row justify-between items-center absolute top-0 left-0 right-0 px-10 py-5">
           <div className="flex flex-row gap-2 items-center font-semibold">
-            <img
-              className="w-10 h-10"
-              src="https://cdn-icons-png.flaticon.com/128/1041/1041916.png"
-              alt="logo"
-            />
+            <img className="w-10 h-10" src="/favicon.png" alt="logo" />
             <div className="[text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px]">
               Forum3
             </div>
@@ -49,15 +45,11 @@ function App() {
           closedText="Having second thoughts?"
           headerText="Ask the Forum3 community"
         />
-        <img
-          className="w-24 h-24"
-          src="https://cdn-icons-png.flaticon.com/128/1041/1041916.png"
-          alt="logo"
-        />
-        <div className="font-extrabold text-8xl [text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px]">
+        <img className="w-24 h-24" src="/favicon.png" alt="logo" />
+        <div className="font-extrabold text-8xl [text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px] anim">
           Forum3
         </div>
-        <div className="font-semibold pt-2 text-lg">
+        <div className="font-semibold pt-2 text-lg anim">
           By the community, for the community
         </div>
       </div>
