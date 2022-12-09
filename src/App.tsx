@@ -46,10 +46,10 @@ function App() {
           headerText="Ask the Forum3 community"
         />
         <img className="w-24 h-24" src="/favicon.png" alt="logo" />
-        <div className="font-extrabold text-8xl [text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px] anim">
+        <div className="font-extrabold text-8xl [text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px] slide-in">
           Forum3
         </div>
-        <div className="font-semibold pt-2 text-lg anim">
+        <div className="font-semibold pt-2 text-lg slide-in">
           By the community, for the community
         </div>
       </div>
