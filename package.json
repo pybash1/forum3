@@ -8,6 +8,7 @@
     "@orbisclub/orbis-sdk": "^0.4.4-beta.41",
     "@types/sanitize-html": "^2.6.2",
     "react-hot-toast": "^2.4.0",
+    "react-router-dom": "^6.4.5",
     "sanitize-html": "^2.7.3"
   },
   "devDependencies": {
