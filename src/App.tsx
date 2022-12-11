@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Card from "./components/Card";
 import Component from "./components/Component";
+import Navbar from "./components/Navbar";
 import { Forum } from "./lib";
 
 function App() {
@@ -24,22 +25,7 @@ function App() {
   return (
     <div className="overflow-x-hidden">
       <div className="bg-[url('../public/bg.webp')] bg-cover font-inter h-screen w-screen flex flex-col items-center justify-center text-white">
-        <div className="flex flex-row justify-between items-center absolute top-0 left-0 right-0 px-10 py-5">
-          <div className="flex flex-row gap-2 items-center font-semibold">
-            <img className="w-10 h-10" src="/favicon.png" alt="logo" />
-            <div className="[text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px]">
-              Forum3
-            </div>
-          </div>
-          <div className="flex flex-row gap-6 items-center font-semibold text-sm">
-            <div>Introduction</div>
-            <div>Configuration</div>
-            <div>Components</div>
-            <div className="text-black bg-white px-3 py-2 rounded-lg">
-              Try it Out
-            </div>
-          </div>
-        </div>
+        <Navbar landing />
         <Forum
           context="forum3"
           closedText="Having second thoughts?"
@@ -50,7 +36,7 @@ function App() {
           Forum3
         </div>
         <div className="font-semibold pt-2 text-lg slide-in">
-          By the community, for the community
+          We didn't reinvent the wheel, we reinvented forums.
         </div>
       </div>
       <div className="p-48">
