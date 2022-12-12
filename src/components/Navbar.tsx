@@ -6,7 +6,7 @@ export default function Navbar({
   current?: string;
 }) {
   return (
-    <div className="flex flex-row justify-between items-center absolute top-0 left-0 right-0 px-10 py-5" style={{ borderBottom: landing ? "" : "1px solid #f2f2f7" }}>
+    <div className="flex flex-row justify-between items-center top-0 left-0 right-0 px-10 py-5" style={{ borderBottom: landing ? "" : "1px solid #f2f2f7", position: landing ? "absolute" : "fixed", backgroundColor: landing ? "" : "white" }}>
       <div className="flex flex-row gap-2 items-center font-semibold hover:opacity-70 transition ease-in-out duration-500">
         <img className="w-10 h-10" src="/favicon.png" alt="logo" />
         <a
