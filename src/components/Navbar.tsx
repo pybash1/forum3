@@ -47,7 +47,7 @@ export default function Navbar({
         <a
           href="/components"
           style={{
-            color: !landing && current === "/configuration" ? "#4400FF" : "",
+            color: !landing && current === "/components" ? "#4400FF" : "",
           }}
           className={
             !landing
