@@ -9,6 +9,7 @@ import Configuration from "./routes/Configuration";
 import Components from "./routes/Components";
 import Changelog from "./routes/introduction/Changelog";
 import Feedback from "./routes/introduction/Feedback";
+import Style from "./routes/configuration/Style";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/components",
     element: <Components />,
+  },
+  {
+    path: "/configuration/style",
+    element: <Style />,
   },
 ])
 
