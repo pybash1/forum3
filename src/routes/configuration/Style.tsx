@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 
-export default function Configuration() {
+export default function Style() {
   return (
     <div>
       <Navbar current="/configuration" />

@@ -1,7 +1,7 @@
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
 
-export default function Changelog() {
+export default function Feedback() {
   return (
     <div>
       <Navbar current="/introduction" />
