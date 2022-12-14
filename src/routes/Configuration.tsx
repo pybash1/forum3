@@ -46,7 +46,11 @@ export default function Configuration() {
         </div>
         <div className="font-bold text-xl">Using environment variables</div>
         <div className="text-[#464168] pt-5 pb-10 font-normal">
-            Coming soon...
+          Right now only one option can be configured with environment variables
+          that is the context of the forum component. This prop is now optional
+          and the component automatically detects it from the environment
+          variable named <code>REACT_APP_FORUM_CONTEXT</code> if present
+          otherwise it uses the default Orbis context.
         </div>
       </div>
     </div>
