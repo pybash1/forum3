@@ -2,6 +2,7 @@ import { Orbis } from "@orbisclub/orbis-sdk";
 import { useEffect, useState } from "react";
 import sanitizeHtml from "sanitize-html";
 import toast, { Toaster } from "react-hot-toast";
+import { ReactNode } from "react";
 
 let orbis = new Orbis();
 
@@ -36,6 +37,8 @@ const darkDefaults: Colors = {
 export default function Forum({
   position = "bottom-right",
   dark = false,
+  icon = true,
+  iconOnly = false,
   theme = dark ? darkDefaults : defaults,
   headerText,
   closedText,
@@ -166,9 +169,9 @@ export default function Forum({
       />
       <div
         className="group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2"
-        style={{ color: theme.textColor || theme.accent }}
+        style={{ color: theme.textColor || theme.accent, justifyContent: iconOnly ? "center" : "" }}
       >
-        <svg
+        {icon === true ? (<svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
           height="20"
@@ -181,8 +184,8 @@ export default function Forum({
             d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.0
 09.94z"
           />
-        </svg>
-        {closedText}
+        </svg>) : icon === false ? null : icon}
+        {!iconOnly ? closedText : null}
       </div>
       <div className="hidden group-hover:flex flex-col justify-between h-96">
         <div
@@ -425,6 +428,8 @@ interface Props {
   closedText: string;
   headerText: string;
   context: string;
+  icon?: boolean | ReactNode;
+  iconOnly?: boolean;
 }
 
 interface Colors {
