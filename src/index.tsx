@@ -10,6 +10,8 @@ import Components from "./routes/Components";
 import Changelog from "./routes/introduction/Changelog";
 import Feedback from "./routes/introduction/Feedback";
 import Style from "./routes/configuration/Style";
+import ForumComponent from "./routes/components/ForumComponent";
+import ForumPageComponent from "./routes/components/ForumPageComponent";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +36,20 @@ const router = createBrowserRouter([
     element: <Configuration />,
   },
   {
+    path: "/configuration/style",
+    element: <Style />,
+  },
+  {
     path: "/components",
     element: <Components />,
   },
   {
-    path: "/configuration/style",
-    element: <Style />,
+    path: "/components/forum",
+    element: <ForumComponent />,
+  },
+  {
+    path: "/components/forum-page",
+    element: <ForumPageComponent />,
   },
 ])
 

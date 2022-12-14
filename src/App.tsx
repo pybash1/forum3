@@ -103,8 +103,16 @@ function App() {
         </div>
         <div className="font-bold text-xl pt-24 pb-6">Components</div>
         <div className="grid grid-cols-4 gap-3">
-          <Component name="Forum Box" image="/forum_box.png" />
-          <Component name="Forum Page" image="/forum_box.png" />
+          <Component
+            link="/components/forum"
+            name="Forum Box"
+            image="/forum_box.png"
+          />
+          <Component
+            link="/components/forum-page"
+            name="Forum Page"
+            image="/forum_box.png"
+          />
         </div>
       </div>
       <div className="border-gray-200 px-12 py-12 flex flex-row justify-between items-center border-t">

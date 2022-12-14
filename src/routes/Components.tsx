@@ -28,7 +28,7 @@ export default function Components() {
         links={[
           { name: "All", link: "/components", active: true },
           { name: "Forum", link: "/components/forum" },
-          { name: "ForumPage", link: "/components/page" },
+          { name: "ForumPage", link: "/components/forum-page" },
         ]}
       />
       <div className="pl-[280px] w-2/3 pt-20 font-inter">
@@ -55,8 +55,16 @@ export default function Components() {
         </a>
         <div className="bg-[#eeeeee] my-20 h-[0.5px]"></div>
         <div className="text-[#464168] pt-5 pb-10 font-normal grid grid-cols-3 gap-4">
-          <Component name="Forum Box" image="/forum_box.png" />
-          <Component name="Forum Page" image="/forum_box.png" />
+          <Component
+            link="/components/forum"
+            name="Forum Box"
+            image="/forum_box.png"
+          />
+          <Component
+            link="/components/forum-page"
+            name="Forum Page"
+            image="/forum_box.png"
+          />
         </div>
       </div>
     </div>
