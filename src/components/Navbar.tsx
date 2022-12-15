@@ -6,17 +6,16 @@ export default function Navbar({
   current?: string;
 }) {
   return (
-    <div className="flex flex-row justify-between items-center top-0 left-0 right-0 px-10 py-5" style={{ borderBottom: landing ? "" : "1px solid #f2f2f7", position: landing ? "absolute" : "fixed", backgroundColor: landing ? "" : "white" }}>
-      <div className="flex flex-row gap-2 items-center font-semibold hover:opacity-70 transition ease-in-out duration-500">
+    <div className="z-[100] flex flex-row justify-between items-center top-0 left-0 right-0 px-10 py-5" style={{ borderBottom: landing ? "" : "1px solid #f2f2f7", position: landing ? "absolute" : "fixed", backgroundColor: landing ? "" : "white" }}>
+      <a href="/" className="flex flex-row gap-2 items-center font-semibold hover:opacity-70 transition ease-in-out duration-500">
         <img className="w-10 h-10" src="/favicon.png" alt="logo" />
-        <a
-          href="/"
+        <div
           className="[text-shadow:rgb(0_0_0_/_10%)_0px_10px_20px]"
           style={{ color: landing ? "" : "#4400FF" }}
         >
           Forum3
-        </a>
-      </div>
+        </div>
+      </a>
       <div className="flex flex-row gap-6 items-center font-semibold text-sm">
         <a
           href="/introduction"
