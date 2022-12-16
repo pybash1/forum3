@@ -125,11 +125,6 @@ export default function Forum({
   };
 
   useEffect(() => {
-    if (!process.env.REACT_APP_FORUM_CONTEXT) {
-      console.error(
-        "Using default Orbis context as no context was specified and REACT_APP_FORUM_CONTEXT environment variable was not found."
-      );
-    }
     orbis.getPosts({ context: context }).then((data: any) => {
       setMsgs(
         data.data
@@ -143,6 +138,14 @@ export default function Forum({
       );
     });
   });
+
+  useEffect(() => {
+    if (!context) {
+      console.error(
+        "Using default Orbis context as no context was specified and REACT_APP_FORUM_CONTEXT environment variable was not found."
+      );
+    }
+  }, [context]);
 
   useEffect(() => {
     messagesEnd?.scrollIntoView({ behavior: "smooth" });

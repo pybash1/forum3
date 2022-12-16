@@ -6,9 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "@orbisclub/orbis-sdk": "^0.4.4-beta.41",
-    "@types/sanitize-html": "^2.6.2",
     "react-hot-toast": "^2.4.0",
-    "react-router-dom": "^6.4.5",
     "sanitize-html": "^2.7.3"
   },
   "devDependencies": {
@@ -19,11 +17,13 @@
     "@types/node": "^16.7.13",
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
+    "@types/sanitize-html": "^2.6.2",
     "autoprefixer": "^10.4.13",
     "postcss": "^8.4.19",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
+    "react-router-dom": "^6.4.5",
     "tailwindcss": "^3.2.4",
     "typescript": "^4.4.2"
   },
