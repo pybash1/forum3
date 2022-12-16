@@ -131,3 +131,18 @@
 .anim {
     opacity: 0;
 }
+
+* {
+  list-style-type: disc;
+}
+
+h2 {
+  font-weight: bold;
+  font-size: x-large;
+}
+
+h3 {
+  font-size: larger;
+  font-weight: bold;
+  padding-top: 12px;
+}

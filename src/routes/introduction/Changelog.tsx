@@ -1,7 +1,15 @@
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
+import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function Changelog() {
+  const [text, setText] = useState("");
+
+  useEffect(() => {
+    fetch("https://raw.githubusercontent.com/pybash1/forum3/cra/CHANGELOG.md").then(res => res.text().then(data => setText(data)))
+  }, [])
+
   return (
     <div>
       <Navbar current="/introduction" />
@@ -34,70 +42,10 @@ export default function Changelog() {
           Edit Page
         </a>
         <div className="bg-[#eeeeee] my-20 h-[0.5px]"></div>
-        <div className="font-bold text-xl">Unreleased</div>
         <div className="text-[#464168] pt-5 pb-10 font-normal">
-          <ul className="list-disc pl-4">
-            <li>
-              <b>introduction</b>: completed introduction subpages with feedback
-              page(without functionality)
-            </li>
-            <li>
-              added introduction page and created new sidebar for docs pages
-              with improved dynamic navbar component
-            </li>
-            <li>added routing and 404 page</li>
-            <li>
-              <b>animation</b>: improved animation and added staggering
-            </li>
-            <li>
-              <b>meta</b>: improved seo and tags
-            </li>
-            <li>complete landing page</li>
-            <li>improved landing page</li>
-            <li>basic landing page design</li>
-            <li>
-              <b>notifications</b>: added notifications instead of console.logs
-            </li>
-            <li>added sender address</li>
-            <li>
-              <b>replies</b>: improved replies ui with link detection and
-              styling
-            </li>
-            <li>added link detection and basic styling options thru html</li>
-            <li>added basic reply functionality and ui</li>
-            <li>
-              <b>reply</b>: added reply ui
-            </li>
-            <li>
-              <b>scroll</b>: added auto scroll to bottom of messages
-            </li>
-            <li>
-              <b>message</b>: now messages can be seen and only sent in custom
-              context
-            </li>
-            <li>added functionality to create posts/messages</li>
-            <li>
-              <b>forum</b>: forum component with connection functionality
-            </li>
-            <li>
-              <b>init</b>: generated project structure and boilerplate
-            </li>
-            <li>minor bug fixes, improvements and layout changes</li>
-            <li>forgot to add file in previous commit</li>
-            <li>updated assets, manifest, and sources</li>
-            <li>fixed major ui bug where background was behind other text</li>
-            <li>fixed minor bugs and issues and made minor improvements</li>
-            <li>more minor bug fixes and improvements</li>
-            <li>fix some minor bugs and formatting</li>
-            <li>
-              <b>colors</b>: now notifications match theme
-            </li>
-            <li>
-              <b>scroll</b>: fixed autoscroll, now it scrolls only once, and
-              after each new message sent
-            </li>
-            <li>fixed bug where context provided as prop was not being used</li>
-          </ul>
+          <ReactMarkdown>
+            {text}
+          </ReactMarkdown>
         </div>
       </div>
     </div>
