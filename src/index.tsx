@@ -12,6 +12,7 @@ import Feedback from "./routes/introduction/Feedback";
 import Style from "./routes/configuration/Style";
 import ForumComponent from "./routes/components/ForumComponent";
 import ForumPageComponent from "./routes/components/ForumPageComponent";
+import { Forum } from "./lib";
 
 const router = createBrowserRouter([
   {
@@ -22,36 +23,77 @@ const router = createBrowserRouter([
   {
     path: "/introduction",
     element: <Introduction />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/introduction/changelog",
     element: <Changelog />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/introduction/feedback",
     element: <Feedback />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/configuration",
     element: <Configuration />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/configuration/style",
     element: <Style />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/components",
     element: <Components />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/components/forum",
     element: <ForumComponent />,
+    errorElement: <ErrorPage />,
   },
   {
     path: "/components/forum-page",
     element: <ForumPageComponent />,
+    errorElement: <ErrorPage />,
   },
-])
+  {
+    path: "/demo",
+    element: (
+      <div className="h-screen w-screen bg-gray-700">
+        <Forum
+          context="forum3"
+          closedText="Dark Mode"
+          headerText="Demo Forum"
+          dark
+        />
+        <Forum
+          context="forum3"
+          closedText="Light Mode"
+          headerText="Demo Forum"
+          position="bottom-left"
+        />
+        <Forum
+          context="forum3"
+          closedText="Dark Mode"
+          headerText="Demo Forum"
+          dark
+          position="top-right"
+        />
+        <Forum
+          context="forum3"
+          closedText="Light Mode"
+          headerText="Demo Forum"
+          position="top-left"
+        />
+      </div>
+    ),
+    errorElement: <ErrorPage />,
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
