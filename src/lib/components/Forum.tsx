@@ -42,6 +42,7 @@ export default function Forum({
   theme = dark ? darkDefaults : defaults,
   headerText,
   closedText,
+  admins = [],
   context = process.env.REACT_APP_FORUM_CONTEXT || "",
 }: Props) {
   const [user, setUser] = useState<string>();
@@ -236,10 +237,17 @@ export default function Forum({
                     }}
                   >
                     {msg[3].creator === did
-                      ? "You"
+                      ? "You" + (admins.includes(user) ? "(Admin)" : "")
                       : msg[3].creator.split(":")[4].substr(0, 6) +
                         "..." +
-                        msg[3].creator.split(":")[4].substr(36)}
+                        msg[3].creator.split(":")[4].substr(36) +
+                        (admins.includes(
+                          msg[3].creator.split(":")[4].substr(0, 6) +
+                            "..." +
+                            msg[3].creator.split(":")[4].substr(36)
+                        )
+                          ? "(Admin)"
+                          : "")}
                   </div>
                   {msg[1] === did ? (
                     <div
@@ -421,7 +429,8 @@ export default function Forum({
               className="text-xs pb-1 pt-2"
               style={{ color: theme.textColor }}
             >
-              Logged in as {user}.{" "}
+              Logged in as {user}
+              {admins.includes(user) ? "(Admin)" : null}.{" "}
               <button
                 style={{ color: theme.accent }}
                 onClick={() => disconnect()}
@@ -445,6 +454,7 @@ interface Props {
   context?: string;
   icon?: boolean | ReactNode;
   iconOnly?: boolean;
+  admins?: string[];
 }
 
 interface Colors {
