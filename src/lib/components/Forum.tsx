@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import sanitizeHtml from "sanitize-html";
 import toast, { Toaster } from "react-hot-toast";
 import { ReactNode } from "react";
+import * as IPFS from "ipfs-core";
 
 let orbis = new Orbis();
 
@@ -53,6 +54,7 @@ export default function Forum({
   const [reply, setReply] = useState<string | null>(null);
   const [replyMsg, setReplyMsg] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
+  const [ipfs, setIpfs] = useState<any>();
 
   async function connect() {
     let res = await orbis.connect();
@@ -101,7 +103,46 @@ export default function Forum({
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
   }
 
-  const highlightLinks = (text: string) => {
+  async function upload() {
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const buf = Buffer.from(reader.result as string);
+      const { cid } = await ipfs.add(buf);
+      let cid_ = cid.toString();
+      reply != null
+        ? await orbis.createPost({
+            body: msg + "###IMAGE###" + cid_,
+            context: context,
+            reply_to: reply,
+          })
+        : await orbis.createPost({
+            body: msg + "###IMAGE###" + cid_,
+            context: context,
+          });
+      let posts = await orbis.getPosts({ context: context });
+      setMsgs(
+        posts.data
+          .map((msg: any) => [
+            msg.content.body,
+            msg.creator,
+            msg.reply_to_details?.body,
+            msg,
+          ])
+          .reverse()
+      );
+      setMsg("");
+      setReply(null);
+      messagesEnd?.scrollIntoView({ behavior: "smooth" });
+    };
+    // @ts-ignore
+    reader.readAsArrayBuffer(document.getElementById("photo").files[0]);
+  }
+
+  async function trigger() {
+    document.getElementById("photo")?.click();
+  }
+
+  const render = (text: string) => {
     let cp = text;
     text = sanitizeHtml(text);
     let exp =
@@ -114,12 +155,14 @@ export default function Forum({
     );
     let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
     return [
-      text1.replace(
-        exp2,
-        `$1<a target="_blank" style="color: ${
-          theme.linkColor || theme.textColor || theme.background
-        };" href="http://$2">$2</a>`
-      ),
+      text1
+        .replace(
+          exp2,
+          `$1<a target="_blank" style="color: ${
+            theme.linkColor || theme.textColor || theme.background
+          };" href="http://$2">$2</a>`
+        )
+        .replace(/###IMAGE###(.*)/, '<img src="https://ipfs.io/ipfs/$1" />'),
       text,
       cp,
     ];
@@ -147,6 +190,10 @@ export default function Forum({
       );
     }
   }, [context]);
+
+  useEffect(() => {
+    IPFS.create({ repo: "ok" + Math.random() }).then((data) => setIpfs(data));
+  }, []);
 
   useEffect(() => {
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
@@ -282,7 +329,7 @@ export default function Forum({
                       {msg[2] ? (
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: highlightLinks(msg[2])[0],
+                            __html: render(msg[2])[0],
                           }}
                           className="border-l-4 rounded-md pl-1 text-white"
                           style={{
@@ -292,7 +339,7 @@ export default function Forum({
                       ) : null}
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: highlightLinks(msg[0])[0],
+                          __html: render(msg[0])[0],
                         }}
                       ></div>
                     </div>
@@ -327,7 +374,7 @@ export default function Forum({
                       {msg[2] ? (
                         <div
                           dangerouslySetInnerHTML={{
-                            __html: highlightLinks(msg[2])[0],
+                            __html: render(msg[2])[0],
                           }}
                           className="border-l-4 rounded-md pl-1 text-white"
                           style={{
@@ -337,7 +384,7 @@ export default function Forum({
                       ) : null}
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: highlightLinks(msg[0])[0],
+                          __html: render(msg[0])[0],
                         }}
                       ></div>
                     </div>
@@ -392,7 +439,7 @@ export default function Forum({
               </div>
             ) : null}
             <div
-              className="flex items-center justify-between gap-3"
+              className="flex items-center justify-between gap-2"
               style={{ paddingTop: reply ? "4px" : "12px" }}
             >
               <input
@@ -405,6 +452,33 @@ export default function Forum({
                   color: theme.background,
                 }}
               />
+              <input
+                type="file"
+                id="photo"
+                className="hidden"
+                accept="image/*"
+                onChange={upload}
+              />
+              <button
+                onClick={trigger}
+                className="rounded-full p-2"
+                style={{
+                  background: theme.buttonColor || theme.accent,
+                  color: theme.background,
+                }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  className="bi bi-upload"
+                  viewBox="0 0 16 16"
+                >
+                  <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z" />
+                  <path d="M7.646 1.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 2.707V11.5a.5.5 0 0 1-1 0V2.707L5.354 4.854a.5.5 0 1 1-.708-.708l3-3z" />
+                </svg>
+              </button>
               <button
                 onClick={send}
                 className="rounded-full p-2"
