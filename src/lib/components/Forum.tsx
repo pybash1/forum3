@@ -201,10 +201,10 @@ export default function Forum({
 
   return (
     <div
-      className={`w-80 h-96 translate-y-[21rem] fixed ${
+      className={`w-80 h-96 fixed ${
         position === "top-left" || position === "top-right"
-          ? "rounded-b-xl"
-          : "rounded-t-xl"
+          ? "rounded-b-xl -translate-y-[21rem]"
+          : "rounded-t-xl translate-y-[21rem]"
       } mx-14 hover:translate-y-0 transition ease-in-out group z-[100]`}
       style={{
         bottom:
@@ -224,7 +224,7 @@ export default function Forum({
         }}
       />
       <div
-        className="group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2"
+        className={`group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2 ${position === "top-left" || position === "top-right" ? "absolute bottom-0" : ""}`}
         style={{
           color: theme.textColor || theme.accent,
           justifyContent: iconOnly ? "center" : "",
@@ -285,13 +285,13 @@ export default function Forum({
                   >
                     {msg[3].creator === did
                       ? "You" + (admins.includes(user) ? "(Admin)" : "")
-                      : msg[3].creator.split(":")[4].substr(0, 6) +
+                      : msg[3].creator.split(":")[4]?.substr(0, 6) +
                         "..." +
-                        msg[3].creator.split(":")[4].substr(36) +
+                        msg[3].creator.split(":")[4]?.substr(36) +
                         (admins.includes(
-                          msg[3].creator.split(":")[4].substr(0, 6) +
+                          msg[3].creator.split(":")[4]?.substr(0, 6) +
                             "..." +
-                            msg[3].creator.split(":")[4].substr(36)
+                            msg[3].creator.split(":")[4]?.substr(36)
                         )
                           ? "(Admin)"
                           : "")}
