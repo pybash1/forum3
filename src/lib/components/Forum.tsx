@@ -55,6 +55,7 @@ export default function Forum({
   const [replyMsg, setReplyMsg] = useState<string | null>(null);
   const [hovered, setHovered] = useState(false);
   const [ipfs, setIpfs] = useState<any>();
+  const [visible, setVisible] = useState(false);
 
   async function connect() {
     let res = await orbis.connect();
@@ -223,8 +224,57 @@ export default function Forum({
           },
         }}
       />
+      {visible ? (
+        <div
+          className={`h-full w-full z-[999] backdrop-blur-lg hidden absolute px-6 group-hover:flex items-center justify-center ${
+            position === "top-left" || position === "top-right"
+              ? "rounded-b-xl"
+              : "rounded-t-xl"
+          }`}
+        >
+          <div
+            className="rounded-xl px-6 py-4"
+            style={{ backgroundColor: theme.accent, color: theme.background }}
+          >
+            <div className="text-center font-bold font-inter text-lg">
+              Upload Image
+            </div>
+            <div>
+              Are you sure you want to upload this image? This action is
+              irreversible.
+            </div>
+            <div className="flex flex-row gap-3 items-center justify-center pt-2">
+              <button
+                className="rounded-xl px-2.5 py-1.5"
+                style={{ background: theme.background, color: theme.accent }}
+                onClick={() => {
+                  setVisible(false);
+                  upload();
+                  toast.success("File uploaded");
+                }}
+              >
+                Yes
+              </button>
+              <button
+                className="rounded-xl px-2.5 py-1.5"
+                style={{ background: theme.background, color: theme.accent }}
+                onClick={() => {
+                  setVisible(false);
+                  toast.error("File upload cancelled");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
       <div
-        className={`group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2 ${position === "top-left" || position === "top-right" ? "absolute bottom-0" : ""}`}
+        className={`group-hover:hidden px-6 py-3 font-semibold flex flex-row items-center gap-2 ${
+          position === "top-left" || position === "top-right"
+            ? "absolute bottom-0"
+            : ""
+        }`}
         style={{
           color: theme.textColor || theme.accent,
           justifyContent: iconOnly ? "center" : "",
@@ -457,7 +507,7 @@ export default function Forum({
                 id="photo"
                 className="hidden"
                 accept="image/*"
-                onChange={upload}
+                onChange={() => setVisible(true)}
               />
               <button
                 onClick={trigger}
