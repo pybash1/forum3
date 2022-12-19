@@ -57,6 +57,7 @@ export default function Forum({
   const [ipfs, setIpfs] = useState<any>();
   const [visible, setVisible] = useState(false);
   const [page, setPage] = useState(0);
+  const [loadMoreBtn, setLoadMoreBtn] = useState(true);
 
   async function connect() {
     let res = await orbis.connect();
@@ -171,18 +172,90 @@ export default function Forum({
           .replace(/###IMAGE###(.*)/, '<img src="https://ipfs.io/ipfs/$1" />'),
         {
           allowedTags: [
-            "address", "article", "aside", "footer", "header", "h1", "h2", "h3", "h4",
-            "h5", "h6", "hgroup", "main", "nav", "section", "blockquote", "dd", "div",
-            "dl", "dt", "figcaption", "figure", "hr", "li", "main", "ol", "p", "pre",
-            "ul", "a", "abbr", "b", "bdi", "bdo", "br", "cite", "code", "data", "dfn",
-            "em", "i", "kbd", "mark", "q", "rb", "rp", "rt", "rtc", "ruby", "s", "samp",
-            "small", "span", "strong", "sub", "sup", "time", "u", "var", "wbr", "caption",
-            "col", "colgroup", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "img"
+            "address",
+            "article",
+            "aside",
+            "footer",
+            "header",
+            "h1",
+            "h2",
+            "h3",
+            "h4",
+            "h5",
+            "h6",
+            "hgroup",
+            "main",
+            "nav",
+            "section",
+            "blockquote",
+            "dd",
+            "div",
+            "dl",
+            "dt",
+            "figcaption",
+            "figure",
+            "hr",
+            "li",
+            "main",
+            "ol",
+            "p",
+            "pre",
+            "ul",
+            "a",
+            "abbr",
+            "b",
+            "bdi",
+            "bdo",
+            "br",
+            "cite",
+            "code",
+            "data",
+            "dfn",
+            "em",
+            "i",
+            "kbd",
+            "mark",
+            "q",
+            "rb",
+            "rp",
+            "rt",
+            "rtc",
+            "ruby",
+            "s",
+            "samp",
+            "small",
+            "span",
+            "strong",
+            "sub",
+            "sup",
+            "time",
+            "u",
+            "var",
+            "wbr",
+            "caption",
+            "col",
+            "colgroup",
+            "table",
+            "tbody",
+            "td",
+            "tfoot",
+            "th",
+            "thead",
+            "tr",
+            "img",
           ],
           allowedAttributes: {
-            a: [ 'href', 'name', 'target' ],
-            img: [ 'src', 'srcset', 'alt', 'title', 'width', 'height', 'loading' ]
-          }
+            a: ["href", "name", "target"],
+            img: [
+              "src",
+              "srcset",
+              "alt",
+              "title",
+              "width",
+              "height",
+              "loading",
+            ],
+          },
         }
       ),
       text,
@@ -192,6 +265,7 @@ export default function Forum({
 
   async function load(_page: number) {
     const { data } = await orbis.getPosts({ context: context }, _page);
+    const _data = await orbis.getPosts({ context: context }, _page+1);
     if (data) {
       if (_page === 0) {
         setMsgs(
@@ -217,6 +291,9 @@ export default function Forum({
         ];
         let __msgs = _msgs.concat(msgs as any[][]);
         setMsgs(__msgs);
+      }
+      if (_data.data.length === 0) {
+        setLoadMoreBtn(false);
       }
     } else {
       setMsgs([]);
@@ -369,7 +446,15 @@ export default function Forum({
         >
           {user ? (
             <div className="w-full h-[15rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
-              <button onClick={loadMore} className="rounded-xl px-3 py-2 w-fit self-center" style={{ background: theme.accent, color: theme.background }}>Load More</button>
+              {loadMoreBtn ? (
+                <button
+                  onClick={loadMore}
+                  className="rounded-xl px-3 py-2 w-fit self-center"
+                  style={{ background: theme.accent, color: theme.background }}
+                >
+                  Load More
+                </button>
+              ) : null}
               {msgs?.map((msg, ind) => (
                 <div
                   key={ind}
