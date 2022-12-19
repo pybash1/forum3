@@ -1,24 +1,12 @@
 ## Unreleased
 
-### Fix
-
-- fixed minor bugs
-- fixed minor bugs
-- fixed bug where configuration and components both were highlighted in configuration page
-- **changelog**: removed placeholders from changelog and added CHANGELOG.md file
-- minor bug fixes, improvements and layout changes
-- forgot to add file in previous commit
-- updated assets, manifest, and sources
-- fixed major ui bug where background was behind other text
-- fixed minor bugs and issues and made minor improvements
-- more minor bug fixes and improvements
-- fix some minor bugs and formatting
-- **colors**: now notifications match theme
-- **scroll**: fixed autoscroll, now it scrolls only once, and after each new message sent
-- fixed bug where context provided as prop was not being used
-
 ### Feat
 
+- improved load more functionality
+- **confirmation**: file upload now has a confirmation dialog
+- **media**: images can now be upload thru forum3 by using ipfs
+- **props**: added new prop to declare certain wallet addresses as admins
+- made the changelog page dynamic
 - **env**: context is now optional and env var named REACT_APP_FORUM_CONTEXT can be set instead to load context
 - **props**: more customizable properties for Forum component
 - **components-page**: added docs for each component separately and fixed minor bugs
@@ -43,3 +31,28 @@
 - added functionality to create posts/messages
 - **forum**: forum component with connection functionality
 - **init**: generated project structure and boilerplate
+
+### Fix
+
+- fixed html sanitization
+- added load more button along with realtime updates
+- fixed minor bug
+- imprved error pages and now dynamic based on error status code
+- fixed minor bugs
+- fixed minor bugs
+- fixed bug where configuration and components both were highlighted in configuration page
+- **changelog**: removed placeholders from changelog and added CHANGELOG.md file
+- minor bug fixes, improvements and layout changes
+- forgot to add file in previous commit
+- updated assets, manifest, and sources
+- fixed major ui bug where background was behind other text
+- fixed minor bugs and issues and made minor improvements
+- more minor bug fixes and improvements
+- fix some minor bugs and formatting
+- **colors**: now notifications match theme
+- **scroll**: fixed autoscroll, now it scrolls only once, and after each new message sent
+- fixed bug where context provided as prop was not being used
+
+### BREAKING CHANGE
+
+- added media support
