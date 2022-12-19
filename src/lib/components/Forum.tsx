@@ -56,6 +56,7 @@ export default function Forum({
   const [hovered, setHovered] = useState(false);
   const [ipfs, setIpfs] = useState<any>();
   const [visible, setVisible] = useState(false);
+  const [page, setPage] = useState(0);
 
   async function connect() {
     let res = await orbis.connect();
@@ -101,6 +102,9 @@ export default function Forum({
     );
     setMsg("");
     setReply(null);
+    for (let i = 0; i <= page; i++) {
+      await load(i);
+    }
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
   }
 
@@ -156,33 +160,69 @@ export default function Forum({
     );
     let exp2 = /(^|[^/])(www\.[\S]+(\b|$))/gim;
     return [
-      text1
-        .replace(
-          exp2,
-          `$1<a target="_blank" style="color: ${
-            theme.linkColor || theme.textColor || theme.background
-          };" href="http://$2">$2</a>`
-        )
-        .replace(/###IMAGE###(.*)/, '<img src="https://ipfs.io/ipfs/$1" />'),
+      sanitizeHtml(
+        text1
+          .replace(
+            exp2,
+            `$1<a target="_blank" style="color: ${
+              theme.linkColor || theme.textColor || theme.background
+            };" href="http://$2">$2</a>`
+          )
+          .replace(/###IMAGE###(.*)/, '<img src="https://ipfs.io/ipfs/$1" />'),
+        {
+          allowedTags: ["img"],
+          allowedAttributes: {
+            img: ["src"],
+          },
+        }
+      ),
       text,
       cp,
     ];
   };
 
+  async function load(_page: number) {
+    const { data } = await orbis.getPosts({ context: context }, _page);
+    if (data) {
+      if (_page === 0) {
+        setMsgs(
+          data
+            .map((msg: any) => [
+              msg.content.body,
+              msg.creator,
+              msg.reply_to_details?.body,
+              msg,
+            ])
+            .reverse()
+        );
+      } else {
+        let _msgs = [
+          ...data
+            .map((msg: any) => [
+              msg.content.body,
+              msg.creator,
+              msg.reply_to_details?.body,
+              msg,
+            ])
+            .reverse(),
+        ];
+        let __msgs = _msgs.concat(msgs as any[][]);
+        setMsgs(__msgs);
+      }
+    } else {
+      setMsgs([]);
+    }
+  }
+
+  function loadMore() {
+    let _page = page + 1;
+    load(_page);
+    setPage(_page);
+  }
+
   useEffect(() => {
-    orbis.getPosts({ context: context }).then((data: any) => {
-      setMsgs(
-        data.data
-          .map((msg: any) => [
-            msg.content.body,
-            msg.creator,
-            msg.reply_to_details?.body,
-            msg,
-          ])
-          .reverse()
-      );
-    });
-  });
+    load(page);
+  }, []);
 
   useEffect(() => {
     if (!context) {
@@ -320,6 +360,7 @@ export default function Forum({
         >
           {user ? (
             <div className="w-full h-[15rem] overflow-hidden overflow-y-scroll flex flex-col gap-2 py-4">
+              <button onClick={loadMore} className="rounded-xl px-3 py-2 w-fit self-center" style={{ background: theme.accent, color: theme.background }}>Load More</button>
               {msgs?.map((msg, ind) => (
                 <div
                   key={ind}
