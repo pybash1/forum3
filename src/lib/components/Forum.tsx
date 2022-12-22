@@ -44,6 +44,7 @@ export default function Forum({
   headerText,
   closedText,
   admins = [],
+  indicator = true,
   context = process.env.REACT_APP_FORUM_CONTEXT || "",
 }: Props) {
   const [user, setUser] = useState<string>();
@@ -336,10 +337,8 @@ export default function Forum({
   }, [messagesEnd]);
 
   useEffect(() => {
-    // @ts-ignore
-    if (msgs && msgs[msgs?.length-1][0] !== lastMsg) {
-      // @ts-ignore
-      setLastMsg(msgs[msgs.length-1][0]);
+    if (msgs && msgs[msgs?.length - 1][0] !== lastMsg) {
+      setLastMsg(msgs[msgs.length - 1][0]);
       setNewMsgs(true);
     }
   }, [msgs]);
@@ -444,10 +443,12 @@ export default function Forum({
           icon
         )}
         {!iconOnly ? closedText : null}
-        {newMsgs ? <span className="flex h-3 w-3 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-        </span> : null}
+        {indicator && newMsgs ? (
+          <span className="flex h-3 w-3 relative">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+          </span>
+        ) : null}
       </div>
       <div className="hidden group-hover:flex flex-col justify-between h-96">
         <div
@@ -737,6 +738,7 @@ interface Props {
   icon?: boolean | ReactNode;
   iconOnly?: boolean;
   admins?: string[];
+  indicator?: boolean;
 }
 
 interface Colors {
