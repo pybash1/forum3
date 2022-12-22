@@ -46,7 +46,8 @@ export default function Forum({
   admins = [],
   indicator = true,
   allowImages = true,
-  context = process.env.REACT_APP_FORUM_CONTEXT || "",
+  // @ts-ignore
+  context = process.env.REACT_APP_FORUM_CONTEXT || process.env.NEXT_PUBLIC_FORUM_CONTEXT || import.meta.env.VITE_FORUM_CONTEXT || "",
 }: Props) {
   const [user, setUser] = useState<string>();
   const [did, setDid] = useState<string>();
@@ -326,7 +327,7 @@ export default function Forum({
   useEffect(() => {
     if (!context) {
       console.error(
-        "Using default Orbis context as no context was specified and REACT_APP_FORUM_CONTEXT environment variable was not found."
+        "Using default Orbis context as no context was specified and FORUM_CONTEXT environment variable was not found."
       );
     }
   }, [context]);
