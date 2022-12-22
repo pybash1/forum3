@@ -111,6 +111,7 @@ export default function Forum({
       await load(i);
     }
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
+    setNewMsgs(false);
   }
 
   async function upload() {
@@ -143,6 +144,7 @@ export default function Forum({
       setMsg("");
       setReply(null);
       messagesEnd?.scrollIntoView({ behavior: "smooth" });
+      setNewMsgs(false);
     };
     // @ts-ignore
     reader.readAsArrayBuffer(document.getElementById("photo").files[0]);
