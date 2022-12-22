@@ -58,6 +58,8 @@ export default function Forum({
   const [visible, setVisible] = useState(false);
   const [page, setPage] = useState(0);
   const [loadMoreBtn, setLoadMoreBtn] = useState(true);
+  const [newMsgs, setNewMsgs] = useState(false);
+  const [lastMsg, setLastMsg] = useState<string>();
 
   async function connect() {
     let res = await orbis.connect();
@@ -265,7 +267,7 @@ export default function Forum({
 
   async function load(_page: number) {
     const { data } = await orbis.getPosts({ context: context }, _page);
-    const _data = await orbis.getPosts({ context: context }, _page+1);
+    const _data = await orbis.getPosts({ context: context }, _page + 1);
     if (data) {
       if (_page === 0) {
         setMsgs(
@@ -307,8 +309,15 @@ export default function Forum({
   }
 
   useEffect(() => {
-    load(page);
-  }, []);
+    const interval = setInterval(() => {
+      load(page);
+      for (let i = 0; i <= page; i++) {
+        load(i);
+      }
+    }, 10000);
+
+    return () => clearInterval(interval);
+  });
 
   useEffect(() => {
     if (!context) {
@@ -326,8 +335,18 @@ export default function Forum({
     messagesEnd?.scrollIntoView({ behavior: "smooth" });
   }, [messagesEnd]);
 
+  useEffect(() => {
+    // @ts-ignore
+    if (msgs && msgs[msgs?.length-1][0] !== lastMsg) {
+      // @ts-ignore
+      setLastMsg(msgs[msgs.length-1][0]);
+      setNewMsgs(true);
+    }
+  }, [msgs]);
+
   return (
     <div
+      onMouseEnter={() => setNewMsgs(false)}
       className={`w-80 h-96 fixed ${
         position === "top-left" || position === "top-right"
           ? "rounded-b-xl -translate-y-[21rem]"
@@ -425,6 +444,10 @@ export default function Forum({
           icon
         )}
         {!iconOnly ? closedText : null}
+        {newMsgs ? <span className="flex h-3 w-3 relative">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+        </span> : null}
       </div>
       <div className="hidden group-hover:flex flex-col justify-between h-96">
         <div
