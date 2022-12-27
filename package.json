@@ -5,7 +5,7 @@
   "private": false,
   "license": "MIT",
   "dependencies": {
-    "@orbisclub/orbis-sdk": "^0.4.4-beta.41",
+    "@orbisclub/orbis-sdk": "^0.4.09",
     "ipfs-core": "^0.17.0",
     "react-hot-toast": "^2.4.0",
     "sanitize-html": "^2.7.3"
