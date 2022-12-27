@@ -1,16 +1,38 @@
 {
   "name": "forum3",
   "description": "An easy-to-implement forum widget component.",
-  "version": "0.1.0",
+  "author": "PyBash",
+  "version": "1.0.0",
+  "keywords": [
+    "web3",
+    "react",
+    "component",
+    "tailwind",
+    "forum"
+  ],
   "private": false,
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pybash1/forum3.git"
+  },
   "license": "MIT",
   "dependencies": {
-    "@orbisclub/orbis-sdk": "^0.4.09",
+    "@babel/polyfill": "^7.12.1",
+    "@orbisclub/orbis-sdk": "^0.4.4-beta-.46",
     "ipfs-core": "^0.17.0",
     "react-hot-toast": "^2.4.0",
     "sanitize-html": "^2.7.3"
   },
   "devDependencies": {
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -32,6 +54,7 @@
   "scripts": {
     "dev": "set BROWSER=none && react-scripts start",
     "build": "react-scripts build",
+    "dist": "set NODE_ENV=production && babel src/lib --out-dir dist --copy-files",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
