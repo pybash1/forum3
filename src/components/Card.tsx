@@ -1,11 +1,13 @@
 import { ReactNode } from "react";
 
 export default function Card({
+  href,
   icon,
   title,
   description,
   button,
 }: {
+  href: string;
   icon: ReactNode;
   title: string;
   description: string;
@@ -17,7 +19,7 @@ export default function Card({
       <div className="font-bold text-xl">{title}</div>
       <div className="text-[1rem] text-gray-600">{description}</div>
       <a
-        href="/"
+        href={href}
         className="rounded-lg bg-gray-200 w-fit px-3 py-2 font-semibold"
       >
         {button}

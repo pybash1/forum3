@@ -11,7 +11,6 @@ import Changelog from "./routes/introduction/Changelog";
 import Feedback from "./routes/introduction/Feedback";
 import Style from "./routes/configuration/Style";
 import ForumComponent from "./routes/components/ForumComponent";
-import ForumPageComponent from "./routes/components/ForumPageComponent";
 import { Forum } from "./lib";
 
 const router = createBrowserRouter([
@@ -53,11 +52,6 @@ const router = createBrowserRouter([
   {
     path: "/components/forum",
     element: <ForumComponent />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/components/forum-page",
-    element: <ForumPageComponent />,
     errorElement: <ErrorPage />,
   },
   {

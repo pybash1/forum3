@@ -40,8 +40,23 @@ export default function Configuration() {
           The most simplest and easiest way to configure the components are
           using their props. For example, you can easily change what context
           Forum3 uses by changing the `context` prop in the components.
-          <pre className="px-6 py-4 bg-[#F2F2F7] rounded-xl mt-4">
+          <pre className="px-6 py-4 bg-[#F2F2F7] rounded-xl mt-4 mb-4">
             {'<Forum3 context="custom" ...otherProps />'}
+          </pre>
+          All the other props, their types and default values are mentioned below.
+          <pre className="px-6 py-4 bg-[#F2F2F7] rounded-xl mt-4">
+            {`position?:    "top-right" | "top-left" |
+              "bottom-right" | "bottom-left" = "bottom-right"
+dark?:        boolean                        = false
+icon?:        boolean | ReactNode            = true
+iconOnly?:    boolean                        = false
+theme?:       Colors                         = dark ? darkDefaults : defaults
+headerText:   string
+closedText:   string
+admins?:      stringp[]                      = []
+indicator?:   boolean                        = true
+allowImages?: boolean                        = true
+context?:     string                         = process.env.FORUM_CONTEXT || ""`}
           </pre>
         </div>
         <div className="font-bold text-xl">Using environment variables</div>

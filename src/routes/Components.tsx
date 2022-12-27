@@ -60,11 +60,6 @@ export default function Components() {
             name="Forum Box"
             image="/forum_box.png"
           />
-          <Component
-            link="/components/forum-page"
-            name="Forum Page"
-            image="/forum_box.png"
-          />
         </div>
       </div>
     </div>

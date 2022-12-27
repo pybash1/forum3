@@ -42,6 +42,7 @@ function App() {
       <div className="p-48">
         <div className="grid grid-cols-3 gap-20">
           <Card
+            href="/introduction"
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -57,11 +58,12 @@ function App() {
             }
             title={"Getting Started"}
             description={
-              "Learn how to use these documentation pages in combination with Framer to start building new projects in no-time."
+              "Learn how to use these documentation pages in combination with your code to start building new projects in no-time."
             }
             button={"Read"}
           />
           <Card
+            href="/configuration"
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -77,11 +79,12 @@ function App() {
             }
             title={"Configuration"}
             description={
-              "Learn how to configure contexts, etc. and use our Forum and Page components for several purposes."
+              "Learn how to configure contexts, themes, etc. and use our Forum components for several purposes."
             }
             button={"Read"}
           />
           <Card
+            href="/demo"
             icon={
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -106,11 +109,6 @@ function App() {
           <Component
             link="/components/forum"
             name="Forum Box"
-            image="/forum_box.png"
-          />
-          <Component
-            link="/components/forum-page"
-            name="Forum Page"
             image="/forum_box.png"
           />
         </div>

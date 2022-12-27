@@ -73,11 +73,18 @@ export default function Style() {
     sentMessageColor?: string;
     linkColor?: string;
     replyColor?: string;
-}`}
+  }`}
           </pre>
         </div>
         If the optional colors are not specified, the required colors will be
         used as fallback colors.
+        <div className="pb-4"></div>
+        <div className="font-bold text-xl flex gap-2">
+          Using your custom <pre>theme</pre>
+        </div>
+        To use your custom theme, pass the theme to the component using the{" "}
+        <code>theme</code> prop as shown below.
+        <pre className="px-6 py-4 bg-[#F2F2F7] rounded-xl mt-4">{`<Forum theme={yourCustomTheme} ...otherProps />`}</pre>
         <div className="pb-12"></div>
       </div>
     </div>

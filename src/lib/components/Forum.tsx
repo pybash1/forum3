@@ -37,7 +37,7 @@ const darkDefaults: Colors = {
 
 export default function Forum({
   position = "bottom-right",
-  dark = true,
+  dark = false,
   icon = true,
   iconOnly = false,
   theme = dark ? darkDefaults : defaults,

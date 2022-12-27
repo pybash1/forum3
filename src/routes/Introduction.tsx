@@ -53,14 +53,11 @@ export default function Introduction() {
           component page has a prominent "Copy component" button. Click this and
           you're ready to go. Just paste it on your code and use it.
         </div>
-        <video
-          autoPlay
+        <img
           className="w-full h-full rounded-lg block object-cover bg-[rgba(0,0,0,0)] object-[50%_50%] shadow-xl"
-          muted
-          playsInline
-          loop
-          src="https://cdn.sanity.io/files/oneb1r22/production/cd97fea5c17d427ce3d0da084e846c4d61bd0a70.mp4"
-        ></video>
+          src="/demo.gif"
+          alt="demo"
+        ></img>
         <div className="font-bold text-xl pt-16">Contribute</div>
         <div className="text-[#464168] pt-5 pb-5 font-normal">
           We encourage you to open the source project in{" "}
@@ -79,7 +76,7 @@ export default function Introduction() {
         >
           View on GitHub
         </a>
-        <img className="rounded-lg shadow-xl mb-24" src="https://framerusercontent.com/modules/assets/2048/hCsMlGG5pWYq3qIpVOSnMBAQJ8~lGT_6erT6u2iMcnNyF6F6cLGp246nodfuSwrYQtrWBE.jpg" alt="screenshot" />
+        <img className="rounded-lg shadow-xl mb-24" src="/gh.png" alt="screenshot" />
       </div>
     </div>
   );
