@@ -22,22 +22,22 @@ const defaults: Colors = {
 };
 
 const darkDefaults: Colors = {
-  background: "#161316",
-  headerBackground: "#2C262C",
-  closedBackground: "#161316",
-  accent: "#FCE4D8",
+  background: "#32383b",
+  headerBackground: "#9ca3af",
+  closedBackground: "#32383b",
+  accent: "#3cf0fd",
   textColor: "#F7FFF7",
-  buttonColor: "#FCE4D8",
-  inputColor: "#FCE4D8",
+  buttonColor: "#3cf0fd",
+  inputColor: "#3cf0fd",
   inputBackground: "#2C262C",
-  messageColor: "#C06E52",
-  sentMessageColor: "#F96F5D",
-  linkColor: "#653E3F",
+  messageColor: "#186065",
+  sentMessageColor: "#2aa8b1",
+  linkColor: "#3cf0fd",
 };
 
 export default function Forum({
   position = "bottom-right",
-  dark = false,
+  dark = true,
   icon = true,
   iconOnly = false,
   theme = dark ? darkDefaults : defaults,
